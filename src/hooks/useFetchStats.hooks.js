@@ -40,6 +40,7 @@ export function useFetchStats() {
 
   const hydrateStack = useCallback(async () => {
     if (!!stat) {
+      console.log(JSON.stringify(errors))
       dispatch(retryErrors(errors));
       const cursors = createCounter(
         AMOUNT_PER_FETCH,

@@ -76,17 +76,17 @@ export function fetchStatToStack(next_cursor) {
 export function retryErrors(errors) {
   return async (dispatch) => {
     dispatch(cleanStackError());
-    Promise.all(
+    await Promise.all(
       Object.keys(errors).map(async (actualCursor) => {
-        dispatch(fetchStatToStack(actualCursor));
+         dispatch(fetchStatToStack(actualCursor));
       })
     );
   };
 }
 
 export function bulkyFetch(cursors) {
-  return (dispatch) => {
-    Promise.all(
+  return async (dispatch) => {
+    await Promise.all(
       cursors.map(async (actualCursor) => {
         dispatch(fetchStatToStack(actualCursor));
       })
