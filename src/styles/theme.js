@@ -46,9 +46,8 @@ const colors = {
   white: '#FFFFFF',
   santasgray: '#A2A3B2',
   supernova: '#FDCD00',
-  zircon : '#F8FAFF',
-  selago : '#F2F6FE'
-  
+  zircon: '#F8FAFF',
+  selago: '#F2F6FE',
 };
 
 const fontSizes = [14, 16, 18, 20, 24, 28, 35, 46, 60];
@@ -66,7 +65,14 @@ const fontWeights = {
 
 const space = [0, 5, 10, 15, 20, 25, 30];
 
-export const breakpointsArr = ['376px', '576px', '768px', '992px', '1200px', '1400px'];
+export const breakpointsArr = [
+  '376px',
+  '576px',
+  '768px',
+  '992px',
+  '1200px',
+  '1400px',
+];
 const containerWidth = ['1400px'];
 
 const mediaQueries = breakpointsArr.map((bp) => `@media (min-width: ${bp})`);
@@ -76,8 +82,6 @@ const typography = {
   letterSpacing: '0.7px',
   lineHeight: lineHeight[0],
 };
-
-
 
 const theme = {
   typography,
@@ -230,9 +234,8 @@ const theme = {
       ...typography,
       fontSize: fontSizes[0],
       fontWeight: fontWeights.regular,
-    }
-  }
-    
+    },
+  },
 };
 
 export default theme;
