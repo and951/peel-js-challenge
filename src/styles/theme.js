@@ -48,12 +48,13 @@ const colors = {
   supernova: '#FDCD00',
   zircon: '#F8FAFF',
   selago: '#F2F6FE',
+  azure :'#009CF5'
 };
 
 const fontSizes = [14, 16, 18, 20, 24, 28, 35, 46, 60];
 const lineHeight = [1, 1.2, 1.3, 1.4, 1.5];
 
-const fontWeightValues = ['300', '400', '500', '700', '800', '900'];
+const fontWeightValues = ['200', '400', '500', '700', '800', '900'];
 const fontWeights = {
   light: fontWeightValues[0],
   regular: fontWeightValues[1],

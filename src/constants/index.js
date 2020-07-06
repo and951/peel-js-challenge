@@ -10,3 +10,5 @@ export const CLIENT_LOAD_AMOUNT = 50
 export const  AMOUNT_PER_FETCH = 10
 export const RETRY_CODES = [429, 408, 500, 502, 503, 504, 522, 524]
 export const DEFAULT_RETRY_BACKOFF = 2000
+//This field should've come from BE
+export const TOTAL_AMOUNT_OF_STATS = 2500

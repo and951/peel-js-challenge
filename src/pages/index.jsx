@@ -6,82 +6,36 @@
 // ========================================================================================
 // * Lib
 import React from 'react';
-import { FixedSizeList as List } from "react-window";
-import InfiniteLoader from "react-window-infinite-loader";
+
 
 // * Util
-import { useFetchStats } from '@hooks/useFetchStats.hooks'
 import { INITIAL_STATS_AMOUNT, AMOUNT_PER_FETCH } from '@constants/'
 import { wrapper } from '@store';
-import { getStackIndex, getStackCellIndex, createCounter } from '@util'
+import { createCounter } from '@util'
 import statsService from '@services/stats.services'
 import { pushStackSuccess, pushStackError } from '@actions/'
 
 // * Styles
+import theme from '@styles/theme'
 
-import { Text, Flex } from '@display/'
-import theme from '@styles/theme';
 // * Display/UI
+import { Text, Flex } from '@display/';
+import { Header, VirtualizedList } from '@organisms';
 
 const StatsView = (props) => {
-
-    const { success, setRequiredStat } = useFetchStats()
-    const isItemLoaded = index => !!success[index];
-    const Row = ({ index, style }) => {
-        const stackIndex = getStackIndex(index)
-        const stackCellIndex = getStackCellIndex(index)
-        const { ds, y } = success[stackIndex]?.results?.all[stackCellIndex] || { ds: undefined, y: undefined }
-        const date = !ds ? 'Loading...' : index === 0 ? 'Today' : ds
-        const revenue = y || 'Loading...'
-        return (
-            <Flex className="ListItem" style={style} backgroundColor={theme.colors.white} justifyContent='center'>
-                <Flex justifyContent='space-between' alignItems='center' width='824px'>
-                    <Flex flexDirection='column' justifyContent='space-between'>
-                        <Text variant={{ _: 'subhead2Mobile', m: 'subhead2' }} color={index === 0 ? theme.colors.supernova : theme.colors.black} >{date}</Text>
-                        <Text variant={{ _: 'subhead2AltMobile', m: 'subhead2Alt' }} >Overview</Text>
-                    </Flex>
-                    <Text variant={{ _: 'h8Mobile', m: 'h8' }} >{`$${revenue}`}</Text>
-                </Flex>
-            </Flex>
-        );
-    }
     return (
         <Flex
-            flexDirection='column'
             backgroundColor={theme.colors.zircon}
-            justifyContent='space-between'
-            alignItems='center'
+            flexDirection={'column'}
             height='100vh'
-            width='100vw'
         >
-            <Text variant={{ _: 'h2Mobile', m: 'h2' }}  >Revenue Data</Text>
-            <Text variant={{ _: 'subhead2Mobile', m: 'subhead2' }}>Showing all data</Text>
-            <InfiniteLoader
-                isItemLoaded={isItemLoaded}
-                itemCount={2000}
-                loadMoreItems={(index) => {
-                    const stackIndex = getStackIndex(index)
-
-                    console.table({ 'loadMoreItems': stackIndex })
-                    setRequiredStat(stackIndex)
-                }}
-            >
-                {({ onItemsRendered, ref }) => (
-                    <List
-                        className="List"
-                        height={800}
-                        itemCount={2000}
-                        itemSize={88}
-                        onItemsRendered={onItemsRendered}
-                        ref={ref}
-                        width={1118}
-                    >
-                        {Row}
-                    </List>
-                )}
-            </InfiniteLoader>
+            <Header />
+            <Flex flexDirection='column' alignSelf='center' justifyContent='space-evenly'>
+                <Text variant={{ _: 'h4Mobile', m: 'h4' }} fontWeight={theme.fontWeights.light} >Revenue Data</Text>
+                <Text variant={{ _: 'subhead2Mobile', m: 'subhead2' }} color={theme.colors.santasgray}>Showing all data</Text>
+                <VirtualizedList />
+            </Flex>
         </Flex>
-
     )
 }
 
@@ -97,7 +51,7 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
                 store.dispatch(pushStackSuccess(res));
             }
             catch (error) {
-                store.dispatch(pushStackError({ next_cursor: actualCursor+AMOUNT_PER_FETCH, error: JSON.stringify(error, Object.getOwnPropertyNames(error)) }))
+                store.dispatch(pushStackError({ next_cursor: actualCursor + AMOUNT_PER_FETCH, error: JSON.stringify(error, Object.getOwnPropertyNames(error)) }))
             }
         })
     )
