@@ -109,8 +109,8 @@ const theme = {
     xxl: breakpointsArr[6],
   },
   mediaQuery: {
-    isMobile: '991px',
-    notMobile: '992px',
+    isMobile: breakpointsArr[2],
+    notMobile: breakpointsArr[3],
   },
   fontWeights: {
     light: fontWeightValues[0],
@@ -154,12 +154,12 @@ const theme = {
     h4: {
       ...typography,
       fontSize: fontSizes[6],
-      fontWeight: fontWeights.regular,
+      fontWeight: fontWeights.light,
     },
     h4Mobile: {
       ...typography,
       fontSize: fontSizes[6],
-      fontWeight: fontWeights.regular,
+      fontWeight: fontWeights.light,
     },
     h5: {
       ...typography,
@@ -198,7 +198,7 @@ const theme = {
     },
     h8: {
       ...typography,
-      fontSize: fontSizes[3],
+      fontSize: fontSizes[2],
       fontWeight: fontWeights.bold,
     },
     h8Mobile: {
@@ -208,12 +208,12 @@ const theme = {
     },
     subhead1: {
       ...typography,
-      fontSize: fontSizes[3],
+      fontSize: fontSizes[2],
       fontWeight: fontWeights.medium,
     },
     subhead1Mobile: {
       ...typography,
-      fontSize: fontSizes[3],
+      fontSize: fontSizes[2],
       fontWeight: fontWeights.medium,
     },
     subhead2: {
@@ -226,15 +226,25 @@ const theme = {
       fontSize: fontSizes[2],
       fontWeight: fontWeights.light,
     },
+    subheadAlt: {
+      ...typography,
+      fontSize: fontSizes[0],
+      fontWeight: fontWeights.bold,
+    },
+    subheadtMobile: {
+      ...typography,
+      fontSize: fontSizes[0],
+      fontWeight: fontWeights.bold,
+    },
     subhead2Alt: {
       ...typography,
       fontSize: fontSizes[0],
-      fontWeight: fontWeights.regular,
+      fontWeight: fontWeights.light,
     },
     subhead2AltMobile: {
       ...typography,
       fontSize: fontSizes[0],
-      fontWeight: fontWeights.regular,
+      fontWeight: fontWeights.light,
     },
   },
 };

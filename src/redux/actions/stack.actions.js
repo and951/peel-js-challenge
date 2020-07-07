@@ -4,12 +4,15 @@
  *                                                                                      */
 // ========================================================================================
 import statsService from '@services/stats.services';
-
-export const PUSH_STACK_SUCCESS = 'PUSH_STACK_SUCCESSS';
-export const POP_STACK = 'POP_STACK';
-export const PUSH_STACK_ERROR = 'PUSH_STACK_ERROR';
-export const PUSH_STACK_RETRY_ERROR = 'PUSH_STACK_RETRY_ERROR';
-export const CLEAN_STACK_ERROR = 'CLEAN_STACK_ERROR';
+import { DEFAULT_RETRY_BACKOFF } from '@constants/';
+import { isSSR } from '@util/';
+import {
+  PUSH_STACK_SUCCESS,
+  PUSH_STACK_ERROR,
+  CLEAN_STACK_ERROR,
+  POP_STACK,
+  PUSH_STACK_RETRY_ERROR,
+} from '@constants/';
 
 export function pushStackSuccess(stat) {
   return {
@@ -50,26 +53,35 @@ export function popStack(key) {
   };
 }
 
-export function fetchStatToStack(next_cursor) {
-  return async (dispatch) => {
-    try {
-      const res = await statsService(next_cursor);
-      if (res.error) {
-        throw res.error;
+export function fetchStatToStack(next_cursor, backoff = 0) {
+  return  (dispatch) => {
+    setTimeout(async () => {
+      try {
+        const res = await statsService(next_cursor);
+        if (res.error) {
+          throw res.error;
+        }
+        dispatch(pushStackSuccess(res));
+        dispatch(popStack(next_cursor));
+        return res;
+      } catch (error) {
+        dispatch(
+          pushStackRetryError({
+            ...{
+              next_cursor,
+              error: JSON.stringify(error, Object.getOwnPropertyNames(error)),
+            },
+          })
+        );
+        if (!isSSR()) {
+          const newBackoff =
+            (error?.response?.headers['retry-after'] || 0) +
+            DEFAULT_RETRY_BACKOFF;
+          dispatch(fetchStatToStack(next_cursor, newBackoff * 1000));
+        }
+        return error;
       }
-      dispatch(pushStackSuccess(res));
-      return res;
-    } catch (error) {
-      dispatch(
-        pushStackRetryError({
-          ...{
-            next_cursor,
-            error: JSON.stringify(error, Object.getOwnPropertyNames(error)),
-          },
-        })
-      );
-      return error;
-    }
+    }, backoff);
   };
 }
 
@@ -78,18 +90,20 @@ export function retryErrors(errors) {
     dispatch(cleanStackError());
     await Promise.all(
       Object.keys(errors).map(async (actualCursor) => {
-         dispatch(fetchStatToStack(actualCursor));
+        dispatch(fetchStatToStack(actualCursor));
       })
     );
   };
 }
 
-export function bulkyFetch(cursors) {
+export function bulkyFetch(cursors, retryErrors = []) {
   return async (dispatch) => {
     await Promise.all(
-      cursors.map(async (actualCursor) => {
-        dispatch(fetchStatToStack(actualCursor));
-      })
+      cursors
+        .filter((value) => !retryErrors.includes(value))
+        .map(async (actualCursor) => {
+          dispatch(fetchStatToStack(actualCursor));
+        })
     );
   };
 }

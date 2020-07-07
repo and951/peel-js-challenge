@@ -16,7 +16,7 @@ import {createCounter} from '@util/'
 
 // * Display/UI
 
-export function useFetchStats() {
+export default () => {
   const [requiredStatIndex, setRequiredStat] = useState(false);
   const dispatch = useDispatch();
 
@@ -29,6 +29,10 @@ export function useFetchStats() {
     (state) => state.stack.error,
     (error) => error.lenght
   );
+  const retryError = useSelector(
+    (state) => state.stack.retryError,
+    (retryError) => retryError.lenght
+  );
   const stackCursor = useSelector(
     (state) => state.stack.stack_cursor,
     (stack_cursor) => stack_cursor
@@ -39,21 +43,23 @@ export function useFetchStats() {
   );
 
   const hydrateStack = useCallback(async () => {
+    const retryErrorKeys = Object.keys(retryError)
     if (!!stat) {
-      console.log(JSON.stringify(errors))
       dispatch(retryErrors(errors));
       const cursors = createCounter(
         AMOUNT_PER_FETCH,
         stackCursor + CLIENT_LOAD_AMOUNT,
         stackCursor
       );
-      dispatch(bulkyFetch(cursors));
+      dispatch(bulkyFetch(cursors,retryErrorKeys));
       setRequiredStat(false)
     } else {
-      await dispatch(fetchStatToStack(requiredStatIndex));
+      if(!retryErrorKeys.includes(requiredStatIndex)){
+        await dispatch(fetchStatToStack(requiredStatIndex));
+      }
       setRequiredStat(false)
     }
-  }, [dispatch, errors,stat, stackCursor,requiredStatIndex]);
+  }, [dispatch, errors,stat, stackCursor,requiredStatIndex,retryErrors]);
 
   useEffect(() => {
     if (requiredStatIndex===0 || !!requiredStatIndex) hydrateStack();

@@ -5,11 +5,6 @@
 // ========================================================================================
 
 import {
-  PUSH_STACK_SUCCESS,
-  PUSH_STACK_ERROR,
-  CLEAN_STACK_ERROR,
-  POP_STACK,
-  PUSH_STACK_RETRY_ERROR,
   pushStackSuccess,
   pushStackRetryError,
   cleanStackError,
@@ -21,11 +16,6 @@ import {
 } from './stack.actions';
 
 export {
-  PUSH_STACK_SUCCESS,
-  PUSH_STACK_ERROR,
-  CLEAN_STACK_ERROR,
-  POP_STACK,
-  PUSH_STACK_RETRY_ERROR,
   pushStackSuccess,
   cleanStackError,
   pushStackRetryError,
@@ -37,11 +27,6 @@ export {
 };
 
 export default {
-  PUSH_STACK_SUCCESS,
-  PUSH_STACK_ERROR,
-  CLEAN_STACK_ERROR,
-  POP_STACK,
-  PUSH_STACK_RETRY_ERROR,
   pushStackSuccess,
   pushStackRetryError,
   cleanStackError,

@@ -19,6 +19,7 @@
     "emotion-reset": "^2.0.7",
     "emotion-theming": "^10.0.27",
     "jest": "^26.1.0",
+    "moment": "^2.27.0",
     "next": "^9.4.4",
     "next-redux-wrapper": "^6.0.2",
     "react": "^16.13.1",

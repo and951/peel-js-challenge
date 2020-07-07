@@ -9,6 +9,7 @@ export default css({
     zIndex: 4,
     alignItems:'center',
     justifyContent: 'space-between',
+    backgroundColor: theme.colors.selago,
     '&__logo':{
       height:'84px',
       width:'195px'
