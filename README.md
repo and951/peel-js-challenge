@@ -1,96 +1,122 @@
-<img src="https://app.peelinsights.com/cdn/img/peel_black.svg" width=200>
 
-## Instruction for completing and submitting the challenge:
+# Andres Jimenez Solution
 
-Thanks for applying to Peel! 
-Welcome to our coding challenge, this is a space for you to share with us how you work and reason about the problem presented, what things you care about when doing coding work, and how you approach problem solving. As such, through this challenge we are not expecting to check if you know the finest algorithms, have all the right answers to a given situation or if you are the best coder in the world. We believe there are no right or wrong answers, so please make yourself comfortable and focus on what you know best.
-
-Luckily we have done some work before hand of setting up this project with the structure and boiler plate react/redux, so you can focus on the actual solution.
-
-**Please submit your ideas to us in 1 week (max).** This will give us enough time to review your challenge with the rest of the team before the next interview. During this interview we will take some time to explore together your coding challenge submission, and will ask you any clarifying questions we might have.
-
-Based on previous candidate experiences, we believe **it will take you between 8 and 10 hours to complete the challenge.** 
-
-## Objective
-
-Most times at Peel our web app has to deal with incredible big amounts of data that needs to be handled smoothly without compromising the user interaction, you are tasked to build a list component that can display revenue stats sorted by date and that it lets the user scroll through the content seemlessly while you are app handles in the background pagination, thottling and any other issues that the API could return.
+### Instructions
 
 
-### API
-http://app.peelinsights.com/api/test_stats/
+Install the dependencies and devDependencies and start the server.
 
-This API calculates revenue for our demo project and it returns maximum the last 10 days, although it allows pagination through `?=cursor` so you can keep getting previous days. The response also includes the `next_cursor` you should use.
-Beware this API is been throttled to 20 requests per minute, consider that and any other bugs within your implementation. If you app gets throtlled you can look for the hold time in the headers with `Retry-After`.
-
-Note: For extra bonus work, you can attach `group_by` with either `week`, `month` or `quarter`. Consider adding a UI for this if you plan to do the bonus work.
-
-JSON Response Example
+```sh
+$ npm install 
+$ npm run dev
+$ npm run test (For testing)
 ```
-{
-	"count": 10,
-	"results": {
-		"all": [{
-			"ds": "2020-06-07",
-			"y": 31623.22
-		}, {
-			"ds": "2020-06-06",
-			"y": 31260.77
-		}, {
-			"ds": "2020-06-05",
-			"y": 27953.93
-		}, {
-			"ds": "2020-06-04",
-			"y": 25717.45
-		}, {
-			"ds": "2020-06-03",
-			"y": 28496.04
-		}, {
-			"ds": "2020-06-02",
-			"y": 28634.9
-		}, {
-			"ds": "2020-06-01",
-			"y": 30592.73
-		}, {
-			"ds": "2020-05-31",
-			"y": 30815.36
-		}, {
-			"ds": "2020-05-30",
-			"y": 28315.92
-		}, {
-			"ds": "2020-05-29",
-			"y": 25794.78
-		}]
-	},
-	"next_cursor": 10
-}
-```
+## How this solution was developed
+
+I’ve reached this solution applying the following working plan:
+
+  
+
+- Requirement summary and discovery work
+
+- Design
+
+- FE implementation
+
+  
+
+Each of these phases are documented to explain a little bit more my way
+
+of thinking and problem resolving skills.
 
 
-### DESIGNS
-Designs are stored in Figma. You should create an account to be able to see them.
-
-- [Figma - Table View](https://www.figma.com/file/m2Zgd0gxDoHlFFq0zaKTKb/JS-Challenge?node-id=1%3A6)
+## Requirement summary and discovery work
 
 
-Font: [Open Sans](https://fonts.google.com/specimen/Open+Sans)
+Main Goal
+
+  
+|                |MAIN GOAL                          |  
+|----------------|-------------------------------|
+||`Creating a responsive web app that can handles fluidly big amounts of data and be resilient to throttling and any other issues that the API could return.`            |
 
 
-## Technical requirements
-There are a few rules that we would like you to follow during your code challenge:
-  - Use the React library to demonstrate component-oriented architecture.
-  - Style your components, use an approach that you see fit.
-  - Take care of mobile devices and make sure that your project works on smaller resolution screens.
-  - Work closely with the design, try to implement it as accurately as possible.
 
-For sharing purposes please create a **new GitHub repo**, deploy your project to the **GitHub pages** and provide the link to the repo and the website, if you don't feel like deploying to Github pages, please let us know in the repo if there is anything special to run the project.
-
-Your submission should also include a readme file, where you can document your work, describe the features and the architectural decisions that you made. Feel free to share there your thoughts about the challenges that you faced implementing this code.
+|                |SPECIFIC GOAL                          |FIRST THOUGHTS                       |
+|----------------|-------------------------------|-----------------------------|
+||`Manages background pagination to allow a great lazy loading user experience .`            |'Use server side rendering to load a a 200 (This value could be edited in a constant or config file) batch to our application context'            |
+|          |`Manages api throttling`            |"Try to load most of the data in advance so we can prevent errors to appear to the user, but In case of throttling occur when the user is interacting with the app, indicate the user with a loading icon and remaining time."            |
+|         |`Manages API errors`|Handles a custom error hook that could pop up an error message in case something happens|
+|         |`Responsive App`|Handles the app with a resilient flex design and media queries that grants a great user experience
 
 
-## What’s next?
-Once you submit your solution, our team will review your code challenge, taking your experience level into account. The sample code provided by you should be in a state considered as a "production" ready - where each requested element is prepared and potentially ready to review with your colleagues.
+##  First thoughts and discovery
+
+  
+After summarizing the requirements I usually think on the best approach
+
+with the knowledge I currently have.
 
 
-Good luck!
+  
 
-**“The Challenge” has been created with the sole intention of being used as a guiding document for the current recruitment process. This means we won't be using it (all or parts of it) within our projects.**
+#### My first approach for behavior
+
+  
+
+ - Create a SSR application that handles a heavy first api load on the
+    server side.   
+  - All of that will be stored and managed by the app
+    context. 
+  - Each time the user scrolls down and more the context data
+    will be shown, and in the asynchronously new data will be fetched so
+    the context always has 5-10 paginations data in advance.  
+  - In case the user scroll faster then the API throttling allows us toobtain
+    our data, a loading icon will appear.    
+   - Error message in case  anything else happens
+
+#### For design:
+
+  
+
+- Use atomic design to create reusable components
+
+- Flex design and media queries that grants a great user experience
+
+#### Concerns or details to have in count :
+
+  
+
+- When using Redux with server rendering, we must also send the state
+
+of our app along in our response, so the client can use it as the initial state.
+
+- On the client-side, a new Redux store will be created and initialized with the state provided by the server. Redux's only job on the server-side is to provide the initial state of our app.
+
+## Design 
+Diagram
+
+![](./ReadmeImages/peel.svg)
+
+### Solution
+
+----------------------- --------------------------------------------------------------------------------------------
+
+Device Evidence 
+*The evidence is just to show the responsivness, there are some final details that are not present in all of the screenshots. Ex:: The date.
+
+Chrome Mac OS ![](./ReadmeImages/6D22F32F-D731-4879-AB0E-1FDD8EE5C751.png)
+
+iPhone XS iOS 13 ![](./ReadmeImages/1A19E523-7010-47CD-9460-CC3E07109EB2.png)
+
+IPad Pro ![](./ReadmeImages/CBC4475B-0790-43B7-9006-E706B523EA91.png)
+
+Galaxy Note 10 ![](./ReadmeImages/E1E5622E-A24B-4296-A6BD-24E1CA917C4A.png)
+
+Chrome 83 Windows 10 ![](./ReadmeImages/F52785AA-7B6E-44C5-8E40-5D8B8A4D8C8D.png)
+
+Iphone 8 ![](./ReadmeImages/8954A7EE-CA48-4F1E-8A36-123C93D2A4F0.png)
+
+macOS Catalina Safari ![](./ReadmeImages/F674E659-70C6-4D16-8F4B-9517D5E98EE0.png)
+
+----------------------- --------------------------------------------------------------------------------------------

@@ -4,14 +4,11 @@
  *                                                                                      */
 // ========================================================================================
 
-import {combineReducers} from 'redux';
-import {statsReducer} from './stats.reducer';
-import {stackReducer} from './stack.reducer';
-
+import { combineReducers } from 'redux';
+import { stackReducer } from './stack.reducer';
 
 const rootReducer = combineReducers({
-    stats:statsReducer,
-    stack: stackReducer
+  stack: stackReducer,
 });
 
 export default rootReducer;

@@ -4,9 +4,9 @@ module.exports = ({
   publicRuntimeConfig: {
     ENV: process.env.ENV || 'dev',
     REACT_APP_ROOT: {
-      dev: 'http://app.peelinsights.com/api',
-      qa: 'http://app.peelinsights.com/api',
-      prod: 'http://app.peelinsights.com/api'
+      dev: 'https://app.peelinsights.com/api',
+      qa: 'https://app.peelinsights.com/api',
+      prod: 'https://app.peelinsights.com/api'
     },
   },
   webpack: (config) => {

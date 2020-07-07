@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from 'emotion-theming';
 import theme from '@styles/theme';
-import {wrapper} from '@store';
+import { wrapper } from '@store';
 
 const WrappedApp = ({ Component, pageProps }) => {
   return (
@@ -9,6 +9,6 @@ const WrappedApp = ({ Component, pageProps }) => {
       <Component {...pageProps} />
     </ThemeProvider>
   );
-  }
-  
-  export default wrapper.withRedux(WrappedApp)
+}
+
+export default wrapper.withRedux(WrappedApp)

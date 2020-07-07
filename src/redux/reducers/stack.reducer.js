@@ -4,38 +4,80 @@
  *                                                                                      */
 // ========================================================================================
 
-import {HYDRATE} from 'next-redux-wrapper';
-import {PUSH_STACK_SUCCESS,PUSH_STACK_ERROR, CLEAN_STACK_ERROR,POP_STACK } from '@actions';
-import initialState from '@store/initialState'
-
+import { HYDRATE } from 'next-redux-wrapper';
+import initialState from '@store/initialState';
+import {
+  AMOUNT_PER_FETCH,
+  PUSH_STACK_SUCCESS,
+  PUSH_STACK_ERROR,
+  PUSH_STACK_RETRY_ERROR,
+  CLEAN_STACK_ERROR,
+  POP_STACK,
+} from '@constants/';
 
 export function stackReducer(state = initialState.stack, action) {
-   const actualStackCursor = action.stat && action.stat.actual_cursor > state.stack_cursor ? +action.stat.actual_cursor : +state.stack_cursor
-    switch(action.type) {
-        case HYDRATE:
-            return {...state, ...action.payload.stack};
-        case PUSH_STACK_SUCCESS: 
-            return  {...state, 
-                stack_cursor:actualStackCursor,
-                success: { ...state.success, [action.stat.actual_cursor]:action.stat}
-            }
-        case PUSH_STACK_ERROR: 
-            return  {...state, 
-                stack_cursor:actualStackCursor ,
-                error: { ...state.error, [action.error.actual_cursor]:action.error.errorMsg}
-            }
-        case POP_STACK:
-            const  { [action.key]: value, ...remainingSuccess } = state.success;
-            const  { [action.key]: err, ...remainingError } = state.error;
-            return {...state, 
-                success : remainingSuccess,
-                error :remainingError
-            }
-        case CLEAN_STACK_ERROR : 
-            return {...state, 
-                error: {}
-            }
-        default: 
-            return state;
+  let actualStackCursor =
+    action?.payload?.stat?.next_cursor > state.stack_cursor
+      ? +action.payload?.stat.next_cursor
+      : +state.stack_cursor;
+
+    switch (action.type) {
+      case HYDRATE:
+        return { ...state, ...action.payload.stack };
+      case PUSH_STACK_SUCCESS:
+        const actualCursor = action.payload.stat.next_cursor - AMOUNT_PER_FETCH;
+        return {
+          ...state,
+          stack_cursor: actualStackCursor,
+          success: {
+            ...state.success,
+            [actualCursor]: action.payload.stat,
+          },
+        };
+      case PUSH_STACK_ERROR:
+        const actualErrorCursor =
+          action.payload.error.next_cursor - AMOUNT_PER_FETCH;
+        actualStackCursor =
+          action?.payload?.error?.next_cursor > state.stack_cursor
+            ? +action.payload?.error.next_cursor
+            : +state.stack_cursor;
+        return {
+          ...state,
+          stack_cursor: actualStackCursor,
+          error: {
+            ...state.error,
+            [actualErrorCursor]: action.payload.error,
+          },
+        };
+      case PUSH_STACK_RETRY_ERROR:
+        const actualRetryErrorCursor =
+          action.payload.error.next_cursor - AMOUNT_PER_FETCH;
+        actualStackCursor =
+          action?.payload?.error?.next_cursor > state.stack_cursor
+            ? +action.payload?.error.next_cursor
+            : +state.stack_cursor;
+        return {
+          ...state,
+          stack_cursor: actualStackCursor,
+          retryError: {
+            ...state.retryError,
+            [actualRetryErrorCursor]: action.payload.error,
+          },
+        };
+      case POP_STACK:
+        const { [action.payload.key]: err, ...remainingError } = state.error;
+        const {
+          [action.payload.key]: retryErr,
+          ...remainingRetryError
+        } = state.retryError;
+        return {
+          ...state,
+          error: remainingError,
+          retryError: remainingRetryError,
+        };
+      case CLEAN_STACK_ERROR:
+        return { ...state, error: {} };
+      default:
+        return state;
     }
 }

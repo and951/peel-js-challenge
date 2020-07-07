@@ -1,14 +1,17 @@
 // ========================================================================================
 /*                                                                                      *
- * ATOM: HEADING                                                                            *
+ * ATOM: ICON                                                                     *
  *                                                                                      */
 // ========================================================================================
 // * Lib
 import React from 'react';
+import IcoMoon from 'react-icomoon';
 
-// * Display/UI
-import Base from './Base.display';
+// * Util
+import IconSet from './selection.json';
 
-const Heading = React.forwardRef((props, ref) => <Base data-display='Heading' {...props} ref={ref} />);
+const IconAtom = React.memo(({ ...props }) => {
+  return <IcoMoon iconSet={IconSet} {...props} />;
+});
 
-export default Heading;
+export default IconAtom;

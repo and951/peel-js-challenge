@@ -46,15 +46,15 @@ const colors = {
   white: '#FFFFFF',
   santasgray: '#A2A3B2',
   supernova: '#FDCD00',
-  zircon : '#F8FAFF',
-  selago : '#F2F6FE'
-  
+  zircon: '#F8FAFF',
+  selago: '#F2F6FE',
+  azure :'#009CF5'
 };
 
 const fontSizes = [14, 16, 18, 20, 24, 28, 35, 46, 60];
 const lineHeight = [1, 1.2, 1.3, 1.4, 1.5];
 
-const fontWeightValues = ['300', '400', '500', '700', '800', '900'];
+const fontWeightValues = ['200', '400', '500', '700', '800', '900'];
 const fontWeights = {
   light: fontWeightValues[0],
   regular: fontWeightValues[1],
@@ -66,7 +66,14 @@ const fontWeights = {
 
 const space = [0, 5, 10, 15, 20, 25, 30];
 
-export const breakpointsArr = ['376px', '576px', '768px', '992px', '1200px', '1400px'];
+export const breakpointsArr = [
+  '376px',
+  '576px',
+  '768px',
+  '992px',
+  '1200px',
+  '1400px',
+];
 const containerWidth = ['1400px'];
 
 const mediaQueries = breakpointsArr.map((bp) => `@media (min-width: ${bp})`);
@@ -76,8 +83,6 @@ const typography = {
   letterSpacing: '0.7px',
   lineHeight: lineHeight[0],
 };
-
-
 
 const theme = {
   typography,
@@ -104,8 +109,8 @@ const theme = {
     xxl: breakpointsArr[6],
   },
   mediaQuery: {
-    isMobile: '991px',
-    notMobile: '992px',
+    isMobile: breakpointsArr[2],
+    notMobile: breakpointsArr[3],
   },
   fontWeights: {
     light: fontWeightValues[0],
@@ -149,12 +154,12 @@ const theme = {
     h4: {
       ...typography,
       fontSize: fontSizes[6],
-      fontWeight: fontWeights.regular,
+      fontWeight: fontWeights.light,
     },
     h4Mobile: {
       ...typography,
       fontSize: fontSizes[6],
-      fontWeight: fontWeights.regular,
+      fontWeight: fontWeights.light,
     },
     h5: {
       ...typography,
@@ -193,7 +198,7 @@ const theme = {
     },
     h8: {
       ...typography,
-      fontSize: fontSizes[3],
+      fontSize: fontSizes[2],
       fontWeight: fontWeights.bold,
     },
     h8Mobile: {
@@ -203,12 +208,12 @@ const theme = {
     },
     subhead1: {
       ...typography,
-      fontSize: fontSizes[3],
+      fontSize: fontSizes[2],
       fontWeight: fontWeights.medium,
     },
     subhead1Mobile: {
       ...typography,
-      fontSize: fontSizes[3],
+      fontSize: fontSizes[2],
       fontWeight: fontWeights.medium,
     },
     subhead2: {
@@ -221,18 +226,27 @@ const theme = {
       fontSize: fontSizes[2],
       fontWeight: fontWeights.light,
     },
+    subheadAlt: {
+      ...typography,
+      fontSize: fontSizes[0],
+      fontWeight: fontWeights.bold,
+    },
+    subheadtMobile: {
+      ...typography,
+      fontSize: fontSizes[0],
+      fontWeight: fontWeights.bold,
+    },
     subhead2Alt: {
       ...typography,
       fontSize: fontSizes[0],
-      fontWeight: fontWeights.regular,
+      fontWeight: fontWeights.light,
     },
     subhead2AltMobile: {
       ...typography,
       fontSize: fontSizes[0],
-      fontWeight: fontWeights.regular,
-    }
-  }
-    
+      fontWeight: fontWeights.light,
+    },
+  },
 };
 
 export default theme;
