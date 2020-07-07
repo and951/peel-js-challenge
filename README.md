@@ -83,7 +83,7 @@ After summarizing the requirements, I usually think about the best approach with
 
 ## Logic Unit Tests 
 
-![](./ReadmeImages/2495540D-15EB-443E-974B-AC737411521.png)
+![](./ReadmeImages/2495540D-15EB-443E-974B-AC7374115213.png)
 
 ----------------------- --------------------------------------------------------------------------------------------
 
