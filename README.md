@@ -100,9 +100,13 @@ Diagram
 
 ### Solution
 
+## Logic Tests 
+
+![](./ReadmeImages/2495540D-15EB-443E-974B-AC7374115213.png)
+
 ----------------------- --------------------------------------------------------------------------------------------
 
-Device Evidence 
+## Device Evidence 
 *The evidence is just to show the responsivness, there are some final details that are not present in all of the screenshots. Ex:: The date.
 
 Chrome Mac OS ![](./ReadmeImages/6D22F32F-D731-4879-AB0E-1FDD8EE5C751.png)
@@ -120,3 +124,5 @@ Iphone 8 ![](./ReadmeImages/8954A7EE-CA48-4F1E-8A36-123C93D2A4F0.png)
 macOS Catalina Safari ![](./ReadmeImages/F674E659-70C6-4D16-8F4B-9517D5E98EE0.png)
 
 ----------------------- --------------------------------------------------------------------------------------------
+
+## Logic Tests 
